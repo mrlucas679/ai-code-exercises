@@ -1,21 +1,13 @@
 // src/main/java/taskmanager/app/TaskManager.java
-package taskmanager.app;
-
-import taskmanager.model.Task;
-import taskmanager.model.TaskPriority;
-import taskmanager.model.TaskStatus;
-import taskmanager.storage.TaskStorage;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class TaskManager {
     private final TaskStorage storage;
