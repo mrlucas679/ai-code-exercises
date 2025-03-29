@@ -1,4 +1,4 @@
-// src/main/java/taskmanager/model/TaskPriority.java
+// src/main/java/taskmanager/model/use-cases.code-comprehension.TaskPriority.java
 package taskmanager.model;
 
 public enum TaskPriority {

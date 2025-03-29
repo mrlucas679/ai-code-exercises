@@ -143,7 +143,7 @@ public class TaskManagerCli {
         if (taskManager.updateTaskStatus(taskId, newStatus)) {
             System.out.println("Updated task status to " + newStatus);
         } else {
-            System.out.println("Failed to update task status. Task not found.");
+            System.out.println("Failed to update task status. use-cases.code-comprehension.Task not found.");
         }
     }
 
@@ -159,7 +159,7 @@ public class TaskManagerCli {
         if (taskManager.updateTaskPriority(taskId, newPriority)) {
             System.out.println("Updated task priority to " + newPriority);
         } else {
-            System.out.println("Failed to update task priority. Task not found.");
+            System.out.println("Failed to update task priority. use-cases.code-comprehension.Task not found.");
         }
     }
 
@@ -175,7 +175,7 @@ public class TaskManagerCli {
         if (taskManager.updateTaskDueDate(taskId, newDueDate)) {
             System.out.println("Updated task due date to " + newDueDate);
         } else {
-            System.out.println("Failed to update task due date. Task not found or invalid date.");
+            System.out.println("Failed to update task due date. use-cases.code-comprehension.Task not found or invalid date.");
         }
     }
 
@@ -191,7 +191,7 @@ public class TaskManagerCli {
         if (taskManager.addTagToTask(taskId, tag)) {
             System.out.println("Added tag '" + tag + "' to task");
         } else {
-            System.out.println("Failed to add tag. Task not found.");
+            System.out.println("Failed to add tag. use-cases.code-comprehension.Task not found.");
         }
     }
 
@@ -207,7 +207,7 @@ public class TaskManagerCli {
         if (taskManager.removeTagFromTask(taskId, tag)) {
             System.out.println("Removed tag '" + tag + "' from task");
         } else {
-            System.out.println("Failed to remove tag. Task or tag not found.");
+            System.out.println("Failed to remove tag. use-cases.code-comprehension.Task or tag not found.");
         }
     }
 
@@ -223,7 +223,7 @@ public class TaskManagerCli {
         if (task != null) {
             System.out.println(formatTask(task));
         } else {
-            System.out.println("Task not found.");
+            System.out.println("use-cases.code-comprehension.Task not found.");
         }
     }
 
@@ -238,7 +238,7 @@ public class TaskManagerCli {
         if (taskManager.deleteTask(taskId)) {
             System.out.println("Deleted task " + taskId);
         } else {
-            System.out.println("Failed to delete task. Task not found.");
+            System.out.println("Failed to delete task. use-cases.code-comprehension.Task not found.");
         }
     }
 
@@ -264,7 +264,7 @@ public class TaskManagerCli {
     }
 
     private static void showHelp(HelpFormatter formatter, Options options) {
-        System.out.println("Task Manager CLI");
+        System.out.println("use-cases.code-comprehension.Task Manager CLI");
         System.out.println("Available commands:");
         System.out.println("  create <title> [description] [priority] [due_date] [tags] - Create a new task");
         System.out.println("  list [-s <status>] [-p <priority>] [-o] - List tasks");

@@ -1,4 +1,4 @@
-// src/main/java/taskmanager/model/Task.java
+// src/main/java/taskmanager/model/use-cases.code-comprehension.Task.java
 package taskmanager.model;
 
 import java.time.LocalDateTime;
