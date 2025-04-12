@@ -1,0 +1,67 @@
+# WeatherNow API Examples
+# Use with REST Client for VS Code or similar tools
+
+### Authentication
+# All requests require an API key in the X-API-Key header
+@apiKey = your_api_key_here
+@baseUrl = https://api.weathernow.com/v1
+
+### Get Current Weather by City Name
+GET {{baseUrl}}/weather/current/city/London
+X-API-Key: {{apiKey}}
+
+### Get Current Weather with Parameters
+GET {{baseUrl}}/weather/current/city/Paris?units=imperial&lang=fr
+X-API-Key: {{apiKey}}
+
+### Get Current Weather by Coordinates
+GET {{baseUrl}}/weather/current/coordinates?lat=40.7128&lon=-74.0060
+X-API-Key: {{apiKey}}
+
+### Get Current Weather by Zip Code
+GET {{baseUrl}}/weather/current/zipcode/90210?countryCode=us
+X-API-Key: {{apiKey}}
+
+### Get Daily Forecast
+GET {{baseUrl}}/weather/forecast/daily/Tokyo?days=5
+X-API-Key: {{apiKey}}
+
+### Get Hourly Forecast
+GET {{baseUrl}}/weather/forecast/hourly/Berlin?hours=12
+X-API-Key: {{apiKey}}
+
+### Get Historical Weather Data
+GET {{baseUrl}}/weather/historical/Sydney?start=2023-04-01&end=2023-04-07
+X-API-Key: {{apiKey}}
+
+### Get Active Weather Alerts
+GET {{baseUrl}}/weather/alerts/active/Miami
+X-API-Key: {{apiKey}}
+
+### Subscribe to Weather Alerts
+POST {{baseUrl}}/weather/alerts/subscribe
+X-API-Key: {{apiKey}}
+Content-Type: application/json
+
+{
+  "location": "San Francisco",
+  "alertTypes": ["severe_thunderstorm", "flood", "high_wind"],
+  "notificationMethods": ["email", "sms"],
+  "contactInfo": {
+    "email": "user@example.com",
+    "phone": "+1234567890"
+  }
+}
+
+### Unsubscribe from Weather Alerts
+DELETE {{baseUrl}}/weather/alerts/unsubscribe
+X-API-Key: {{apiKey}}
+Content-Type: application/json
+
+{
+  "subscriptionId": "sub_123456789"
+}
+
+### Get Air Quality Information
+GET {{baseUrl}}/weather/airquality/Beijing
+X-API-Key: {{apiKey}}
