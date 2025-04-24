@@ -42,4 +42,4 @@ bin/
 .DS_Store
 
 ### Tasks files ###
-*.json
+tasks.json
