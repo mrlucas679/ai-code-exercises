@@ -21,6 +21,10 @@ public class TaskManager {
         this.storage = new TaskStorage(storagePath);
     }
 
+    TaskStorage getStorage() {
+        return storage;
+    }
+
     public String createTask(String title, String description, int priorityValue,
                              String dueDateStr, List<String> tags) {
         TaskPriority priority = TaskPriority.fromValue(priorityValue);
@@ -37,51 +41,54 @@ public class TaskManager {
         }
 
         Task task = new Task(title, description, priority, dueDate, tags);
-        return storage.addTask(task);
+        return getStorage().addTask(task);
     }
 
     public List<Task> listTasks(String statusFilter, Integer priorityFilter, boolean showOverdue) {
         if (showOverdue) {
-            return storage.getOverdueTasks();
+            return getStorage().getOverdueTasks();
         }
 
         if (statusFilter != null) {
             TaskStatus status = TaskStatus.fromValue(statusFilter);
-            return storage.getTasksByStatus(status);
+            return getStorage().getTasksByStatus(status);
         }
 
         if (priorityFilter != null) {
             TaskPriority priority = TaskPriority.fromValue(priorityFilter);
-            return storage.getTasksByPriority(priority);
+            return getStorage().getTasksByPriority(priority);
         }
 
-        return storage.getAllTasks();
+        return getStorage().getAllTasks();
     }
 
     public boolean updateTaskStatus(String taskId, String newStatusValue) {
         TaskStatus newStatus = TaskStatus.fromValue(newStatusValue);
-
-        if (newStatus == TaskStatus.DONE) {
-            Task task = storage.getTask(taskId);
-            if (task != null) {
+        Task task = getStorage().getTask(taskId);
+        if (task != null) {
+            task.setStatus(newStatus);
+            if (newStatus == TaskStatus.DONE) {
                 task.markAsDone();
-                storage.save();
-                return true;
             }
-            return false;
-        } else {
-            Task updates = new Task("tempTitle");
-            updates.setStatus(newStatus);
-            return storage.updateTask(taskId, updates);
+            getStorage().save();
+            return true;
         }
+        return false;
     }
 
     public boolean updateTaskPriority(String taskId, int newPriorityValue) {
-        TaskPriority newPriority = TaskPriority.fromValue(newPriorityValue);
+
+        TaskPriority newPriority = null;
+        try {
+            newPriority = TaskPriority.fromValue(newPriorityValue);
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
 
         Task updates = new Task("tempTitle");
         updates.setPriority(newPriority);
-        return storage.updateTask(taskId, updates);
+        return getStorage().updateTask(taskId, updates);
     }
 
     public boolean updateTaskDueDate(String taskId, String dueDateStr) {
@@ -91,7 +98,7 @@ public class TaskManager {
 
             Task updates = new Task("tempTitle");
             updates.setDueDate(dueDate);
-            return storage.updateTask(taskId, updates);
+            return getStorage().updateTask(taskId, updates);
         } catch (DateTimeParseException e) {
             System.err.println("Invalid date format. Use YYYY-MM-DD");
             return false;
@@ -99,34 +106,34 @@ public class TaskManager {
     }
 
     public boolean deleteTask(String taskId) {
-        return storage.deleteTask(taskId);
+        return getStorage().deleteTask(taskId);
     }
 
     public Task getTaskDetails(String taskId) {
-        return storage.getTask(taskId);
+        return getStorage().getTask(taskId);
     }
 
     public boolean addTagToTask(String taskId, String tag) {
-        Task task = storage.getTask(taskId);
+        Task task = getStorage().getTask(taskId);
         if (task != null) {
             task.addTag(tag);
-            storage.save();
+            getStorage().save();
             return true;
         }
         return false;
     }
 
     public boolean removeTagFromTask(String taskId, String tag) {
-        Task task = storage.getTask(taskId);
+        Task task = getStorage().getTask(taskId);
         if (task != null && task.removeTag(tag)) {
-            storage.save();
+            getStorage().save();
             return true;
         }
         return false;
     }
 
     public Map<String, Object> getStatistics() {
-        List<Task> tasks = storage.getAllTasks();
+        List<Task> tasks = getStorage().getAllTasks();
         int total = tasks.size();
 
         // Count by status
