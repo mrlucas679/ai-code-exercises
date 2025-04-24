@@ -210,9 +210,9 @@ public class TaskManagerTest {
         TaskManager taskManager = new TaskManager(test_storage_file);
 
         // Add some tasks
-        taskManager.createTask("Task 1", "Description 1", 1, "2023-06-01", new ArrayList<>());
-        taskManager.createTask("Task 2", "Description 2", 2, "2023-06-02", new ArrayList<>());
-        taskManager.createTask("Task 3", "Description 3", 3, "2023-06-03", new ArrayList<>());
+        taskManager.createTask("Task 1", "Description 1", 1, "2028-06-01", new ArrayList<>());
+        taskManager.createTask("Task 2", "Description 2", 2, "2028-06-02", new ArrayList<>());
+        taskManager.createTask("Task 3", "Description 3", 3, "2028-06-03", new ArrayList<>());
 
         // Get statistics
         Map<String, Object> stats = taskManager.getStatistics();

@@ -94,9 +94,9 @@ class TaskManager:
             status_counts[task.status.value] += 1
 
         # Count by priority
-        priority_counts = {priority.value: 0 for priority in TaskPriority}
+        priority_counts = {priority.name: 0 for priority in TaskPriority}
         for task in tasks:
-            priority_counts[task.priority.value] += 1
+            priority_counts[task.priority.name] += 1
 
         # Count overdue
         overdue_count = len([task for task in tasks if task.is_overdue()])

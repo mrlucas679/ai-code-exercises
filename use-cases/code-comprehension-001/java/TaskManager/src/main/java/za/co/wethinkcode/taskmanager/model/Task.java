@@ -153,7 +153,7 @@ public class Task {
         if (this.dueDate == null) {
             return false;
         }
-        return this.dueDate.isAfter(LocalDateTime.now()) && this.status != TaskStatus.DONE;
+        return this.dueDate.isBefore(LocalDateTime.now()) && this.status != TaskStatus.DONE;
     }
 
     public void addTag(String tag) {

@@ -2,7 +2,7 @@
 import argparse
 from datetime import datetime
 
-from app import TaskManager
+from task_manager import TaskManager
 from models import TaskStatus, TaskPriority
 
 
