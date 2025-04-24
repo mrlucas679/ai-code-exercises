@@ -1,8 +1,9 @@
-# task_manager/app.py
 import argparse
 from datetime import datetime, timedelta
-from .models import Task, TaskPriority, TaskStatus
-from .storage import TaskStorage
+
+from models import TaskPriority, Task, TaskStatus
+from storage import TaskStorage
+
 
 class TaskManager:
     def __init__(self, storage_path="tasks.json"):

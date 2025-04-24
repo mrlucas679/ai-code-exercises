@@ -1,0 +1,16 @@
+[
+  {
+    "id": "eff03c18-0a23-4ca6-b8e7-26239969bf31",
+    "title": "fix bug",
+    "description": "something to do",
+    "priority": 1,
+    "status": "todo",
+    "created_at": "2025-04-24T12:50:35.790693",
+    "updated_at": "2025-04-24T12:50:35.790693",
+    "due_date": null,
+    "completed_at": null,
+    "tags": [
+      "bugs"
+    ]
+  }
+]

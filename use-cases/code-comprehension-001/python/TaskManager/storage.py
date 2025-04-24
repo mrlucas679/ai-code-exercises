@@ -2,7 +2,7 @@
 import json
 import os
 from datetime import datetime
-from .models import Task, TaskPriority, TaskStatus
+from models import Task, TaskPriority, TaskStatus
 
 class TaskEncoder(json.JSONEncoder):
     def default(self, obj):
