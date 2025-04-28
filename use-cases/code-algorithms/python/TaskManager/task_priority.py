@@ -8,8 +8,8 @@ def calculate_task_score(task):
     priority_weights = {
         TaskPriority.LOW: 1,
         TaskPriority.MEDIUM: 2,
-        TaskPriority.HIGH: 3,
-        TaskPriority.URGENT: 4
+        TaskPriority.HIGH: 4,
+        TaskPriority.URGENT: 6
     }
 
     # Calculate base score from priority
@@ -19,7 +19,7 @@ def calculate_task_score(task):
     if task.due_date:
         days_until_due = (task.due_date - datetime.now()).days
         if days_until_due < 0:  # Overdue tasks
-            score += 30
+            score += 35
         elif days_until_due == 0:  # Due today
             score += 20
         elif days_until_due <= 2:  # Due in next 2 days
@@ -46,9 +46,9 @@ def calculate_task_score(task):
 
 def sort_tasks_by_importance(tasks):
     """Sort tasks by calculated importance score (highest first)."""
-    # Calculate scores once and sort by the score
     task_scores = [(calculate_task_score(task), task) for task in tasks]
-    sorted_tasks = [task for _, task in sorted(task_scores, reverse=True)]
+    # Use key parameter to tell sorted() to only compare the scores (first element of tuple)
+    sorted_tasks = [task for _, task in sorted(task_scores, key=lambda x: x[0], reverse=True)]
     return sorted_tasks
 
 def get_top_priority_tasks(tasks, limit=5):

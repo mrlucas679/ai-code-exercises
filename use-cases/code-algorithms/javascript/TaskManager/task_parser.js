@@ -1,3 +1,5 @@
+const {TaskPriority, Task} = require("./models");
+
 function parseTaskFromText(text) {
   /**
    * Parse free-form text to extract task properties.
@@ -141,3 +143,6 @@ function getNextWeekday(currentDate, targetDay) {
 
   return result;
 }
+
+// Export functions for testing
+module.exports = { parseTaskFromText, getNextWeekday };

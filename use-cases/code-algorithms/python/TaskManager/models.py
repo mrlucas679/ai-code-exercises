@@ -1,7 +1,7 @@
-# task_manager/models.py
 from datetime import datetime
 from enum import Enum
 import uuid
+
 
 class TaskPriority(Enum):
     LOW = 1
@@ -44,4 +44,3 @@ class Task:
         if not self.due_date:
             return False
         return self.due_date < datetime.now() and self.status != TaskStatus.DONE
-

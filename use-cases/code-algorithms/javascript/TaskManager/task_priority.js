@@ -1,3 +1,5 @@
+const {TaskPriority, TaskStatus} = require("./models");
+
 function calculateTaskScore(task) {
   // Base priority weights
   const priorityWeights = {
@@ -61,3 +63,6 @@ function getTopPriorityTasks(tasks, limit = 5) {
   const sortedTasks = sortTasksByImportance(tasks);
   return sortedTasks.slice(0, limit);
 }
+
+// Export functions for testing
+module.exports = { calculateTaskScore, sortTasksByImportance, getTopPriorityTasks };

@@ -1,3 +1,5 @@
+const { TaskStatus } = require("./models");
+
 function mergeTaskLists(localTasks, remoteTasks) {
   /**
    * Merge two task lists with conflict resolution.
@@ -140,3 +142,6 @@ function arraysEqual(a, b) {
   const sortedB = [...b].sort();
   return sortedA.every((val, i) => val === sortedB[i]);
 }
+
+// Export functions for testing
+module.exports = { mergeTaskLists, resolveTaskConflict, arraysEqual };
