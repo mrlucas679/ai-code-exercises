@@ -211,6 +211,7 @@ npx jest tests/task.test.js       # Run only Task model tests
 npx jest tests/taskManager.test.js # Run only TaskManager tests
 npx jest tests/taskStorage.test.js # Run only TaskStorage tests
 npx jest tests/taskManagerIntegration.test.js # Run only integration tests
+<etc for other tests>
 ```
 
 ### Running Tests with Coverage
