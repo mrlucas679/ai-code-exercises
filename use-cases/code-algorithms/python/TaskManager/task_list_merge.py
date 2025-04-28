@@ -1,5 +1,7 @@
 import copy
 
+from models import TaskStatus, TaskPriority
+
 def merge_task_lists(local_tasks, remote_tasks):
     """
     Merge two task lists with conflict resolution.

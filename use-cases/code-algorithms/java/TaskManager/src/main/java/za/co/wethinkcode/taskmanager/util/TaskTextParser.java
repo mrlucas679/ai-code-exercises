@@ -94,7 +94,7 @@ public class TaskTextParser {
         }
 
         // Remove all date markers from the title
-        title = title.replaceAll("\\s#\\w+", "");
+        title = title.replaceAll("\\s#(\\w+)", "");
 
         // Try to parse date references
         if (!dates.isEmpty()) {
