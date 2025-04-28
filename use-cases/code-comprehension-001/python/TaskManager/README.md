@@ -1,29 +1,4 @@
-# Task Management System: A Command-Line Task Organizer with Priority and Status Tracking
-
-A Python-based task management system that helps users organize and track tasks through a command-line interface. The system provides comprehensive task management features including priority levels, status tracking, due dates, and statistical insights about task completion and overdue status.
-
-The system is designed to help users maintain organized task lists with rich metadata and tracking capabilities. It supports multiple task states, priority levels, and tagging for better organization. The system persists task data to JSON storage, making it reliable and maintainable across sessions.
-
-Key features include:
-- Task creation with title, description, priority, and due dates
-- Status tracking (todo, in progress, review, done)
-- Priority levels (low, medium, high, urgent)
-- Task tagging system for better organization
-- Statistical insights about task completion and status
-- Overdue task tracking
-- JSON-based persistent storage
-
-## Repository Structure
-```
-.
-├── cli.py                 # Command-line interface implementation
-├── models.py             # Core data models for Task, TaskStatus, and TaskPriority
-├── storage.py           # JSON storage implementation with custom encoders/decoders
-├── task_manager.py      # Core business logic for task management
-└── tests               # Test suite directory
-    ├── __init__.py
-    └── test_task_manager.py  # Comprehensive test coverage for TaskManager
-```
+# Task Management System
 
 ## Usage Instructions
 ### Prerequisites
