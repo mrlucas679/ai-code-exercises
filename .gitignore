@@ -90,6 +90,7 @@ nb-configuration.xml
 .pytest_cache/
 __pycache__/
 *.pyc
+.venv/
 
 ##############################
 ## Node
