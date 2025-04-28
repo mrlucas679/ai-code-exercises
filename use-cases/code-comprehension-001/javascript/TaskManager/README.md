@@ -185,6 +185,44 @@ This command displays:
 - Number of overdue tasks
 - Number of tasks completed in the last 7 days
 
+## Running Tests
+
+The project includes a comprehensive test suite built with Jest. The tests cover all major components of the application:
+
+- Task model tests
+- TaskManager tests
+- TaskStorage tests
+- Integration tests
+
+### Running All Tests
+
+To run all tests, use the following command:
+
+```bash
+npm test
+```
+
+### Running Specific Test Files
+
+To run a specific test file, you can use the Jest CLI with the file path:
+
+```bash
+npx jest tests/task.test.js       # Run only Task model tests
+npx jest tests/taskManager.test.js # Run only TaskManager tests
+npx jest tests/taskStorage.test.js # Run only TaskStorage tests
+npx jest tests/taskManagerIntegration.test.js # Run only integration tests
+```
+
+### Running Tests with Coverage
+
+To run tests with coverage reporting, use:
+
+```bash
+npx jest --coverage
+```
+
+This will generate a detailed coverage report showing which parts of the code are covered by tests.
+
 ## Data Storage
 
 Tasks are stored in a JSON file named `tasks.json` in the project directory. This file is created automatically when you add your first task.
