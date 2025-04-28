@@ -15,7 +15,7 @@ function calculateTaskScore(task) {
   // Add due date factor (higher score for tasks due sooner)
   if (task.dueDate) {
     const now = new Date();
-    const dueDate = new Date(task.dueDate);
+    const dueDate =task.dueDate;
     const daysUntilDue = Math.ceil((dueDate - now) / (1000 * 60 * 60 * 24));
 
     if (daysUntilDue < 0) {  // Overdue tasks
