@@ -3,7 +3,9 @@ import unittest
 import io
 import sys
 from unittest.mock import patch
-import stock_manager
+
+from stock_manager import print_inventory_report, main
+
 
 class TestStockManager(unittest.TestCase):
     def test_print_inventory_report(self):
@@ -12,14 +14,14 @@ class TestStockManager(unittest.TestCase):
             {"name": "Test Item 1", "quantity": 10},
             {"name": "Test Item 2", "quantity": 20}
         ]
-        
+
         # Capture stdout
         captured_output = io.StringIO()
         sys.stdout = captured_output
-        
+
         # This will crash with the bug in place
         try:
-            stock_manager.print_inventory_report(items)
+            print_inventory_report(items)
             result = captured_output.getvalue()
             self.assertIn("Test Item 1", result)
             self.assertIn("Test Item 2", result)
@@ -33,10 +35,10 @@ class TestStockManager(unittest.TestCase):
     def test_main_function(self):
         # Patch the print_inventory_report function to avoid the error
         with patch('stock_manager.print_inventory_report') as mock_print:
-            stock_manager.main()
+            main()
             # Check that print_inventory_report was called once
             self.assertEqual(mock_print.call_count, 1)
-            
+
             # Check that it was called with the correct data
             args, _ = mock_print.call_args
             items = args[0]

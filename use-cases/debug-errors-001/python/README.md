@@ -1,33 +1,25 @@
-# Inventory Report Generator - Debugging Challenge
+# Error Diagnosis Challenge
 
-## Project Context
-InventTrack is a simple inventory management system used by small businesses to track their product stock. The system generates inventory reports that show the current quantity of products in stock.
+This contains the following Python code with errors:
 
-## Feature Context
-The Inventory Report Generator is a command-line tool that:
-- Takes a collection of inventory items
-- Produces a formatted text report showing each item and its quantity
-- Is used by warehouse staff to verify stock levels
-- Prints reference numbers for each item to make stocktaking easier
+1. `stock_manager.py` - throws a "List Index out of range" Error when running the `test_stock_manager.py` unit test
+2. `image_processor.py` - throws an "Out of Memory" Error when running `image_processor.py` (just add more images to `sample_images` folder if you do not get OutofMemory error)
 
-## Technical Context
-- Simple Python script without external dependencies
-- Used in a production environment by multiple users
-- Reports should correctly list all items without errors
-- System requirements include Python 3.6 or higher
+## Setup
 
-## Error Context
-- The application is crashing with an IndexError
-- Specifically, the error message shows: "list index out of range"
-- The error occurs in the report printing loop
-- The stacktrace shows that the error happens in the print_inventory_report function
+Install the requirements from `requirements.txt`
 
-## User Stories
-1. As a warehouse manager, I want to generate accurate inventory reports
-2. As a stocktaker, I need numbered items on the report to check off items as I count them
-3. As an inventory clerk, I need to trust that the report shows all items without errors
-4. As a business owner, I want the system to be reliable and error-free
+```bash
+pip install -r requirements.txt
+```
 
-## System Requirements
-- Python 3.6+
-- No additional dependencies
+## Run the Tests
+Run the unit tests using Python's unittest framework:
+
+```bash
+# Run tests with basic output
+python -m unittest discover tests
+
+# Run tests with verbose output
+python -m unittest discover -v tests
+```
