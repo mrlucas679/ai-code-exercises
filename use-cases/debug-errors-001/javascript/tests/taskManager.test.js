@@ -17,22 +17,6 @@ describe('Task Manager', () => {
     resetTasks();
   });
 
-  test('calling addTask followed by displayTasks should throw TypeError', () => {
-    // Reset tasks to ensure clean state
-    resetTasks();
-
-    // Call addTask which will overwrite the global tasks variable with a single element
-    // This causes the global 'tasks' variable to be undefined when displayTasks tries to use it
-    addTask('Test task');
-
-    // Expect displayTasks to throw a TypeError
-    // The exact error message might be "Cannot read properties of undefined (reading 'forEach')"
-    // or "Cannot read properties of undefined (reading 'map')" depending on which line triggers the error
-    expect(() => {
-      displayTasks();
-    }).toThrow(TypeError);
-  });
-
   test('toggleTaskStatus should toggle the completed status of a task', () => {
     // Initialize with default tasks
     initApp();
@@ -67,6 +51,7 @@ describe('Task Manager', () => {
 
     // Add a new task
     const tasks = addTask('New test task');
+    displayTasks();
 
     // Verify the results
     expect(tasks.length).toBe(3);

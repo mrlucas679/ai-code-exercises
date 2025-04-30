@@ -41,6 +41,10 @@ function displayTasks() {
         taskListElement.appendChild(taskElement);
       });
     }
+  } else {
+    tasks.forEach(task => {
+      console.log(task.name);
+    });
   }
   return tasks; // Return for testing
 }
