@@ -1,4 +1,4 @@
-// dashboard.test.js
+// userList.test.js
 const { loadDashboard } = require('../userList');
 describe('Dashboard', () => {
   beforeEach(() => {
