@@ -102,21 +102,70 @@ npm start
 
 Regardless of which setup option you choose, you'll need to create the necessary database tables and indexes. The PostgreSQL server will be initialized with the correct user and database name, but the schema needs to be created separately.
 
-### With Docker Compose or Docker for Database Only
+### Option 1: Using the All-in-One Setup Script (Recommended)
+
+This repository includes a shell script that will automatically:
+1. Check if PostgreSQL is running and start it if needed
+2. Initialize the database with all necessary tables, indexes, and sample data
+3. Test the `getCustomerOrderDetails` function
+
+```bash
+# Make the script executable
+chmod +x setup-and-test.sh
+
+# Run the setup and test script
+./setup-and-test.sh
+```
+
+### Option 2: Using the Individual Scripts
+
+If you prefer to run the steps individually, you can use the provided Node.js scripts:
+
+```bash
+# Make sure the database is running first
+# If using Docker Compose:
+docker-compose up -d postgres
+
+# If using Docker for Database Only:
+docker run -d --name orders-postgres -p 5432:5432 orders-service-db
+
+# Then run the initialization script
+node init-db.js
+
+# After initialization, test the getCustomerOrderDetails function
+node test-query.js
+```
+
+The initialization script will:
+1. Create all necessary tables (customers, products, addresses, orders, order_items, order_status_history)
+2. Create recommended indexes for better performance
+3. Insert sample data including:
+   - 3 customers
+   - 8 products
+   - 5 addresses
+   - 4 orders with items and status history
+
+The test script will fetch and display all orders for customer ID 1 (John Doe) from January to December 2023.
+
+### Option 3: Manual Database Setup
+
+If you prefer to set up the database manually, you can connect to the PostgreSQL server and run the SQL commands yourself.
+
+#### With Docker Compose or Docker for Database Only
 
 ```bash
 # Connect to the PostgreSQL container
 docker exec -it orders-postgres psql -U app_user -d ecommerce
 ```
 
-### With Manual Setup
+#### With Manual Setup
 
 ```bash
 # Connect to your PostgreSQL server
 psql -U app_user -d ecommerce
 ```
 
-### Creating Tables and Indexes
+#### Creating Tables and Indexes
 
 Once connected to the database, create the necessary tables:
 

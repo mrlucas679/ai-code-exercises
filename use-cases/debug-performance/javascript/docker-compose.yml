@@ -23,7 +23,7 @@ services:
 
   # Node.js Application
   app:
-    image: node:14
+    image: node:22
     container_name: orders-service
     working_dir: /app
     volumes:
