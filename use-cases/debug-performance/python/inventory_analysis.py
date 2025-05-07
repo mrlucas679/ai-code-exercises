@@ -16,6 +16,8 @@ def find_product_combinations(products, target_price, price_margin=10):
 
     # For each possible pair of products
     for i in range(len(products)):
+        if i % 100 == 0:
+            print(f"Processing product {i+1} of {len(products)}")
         for j in range(len(products)):
             # Skip comparing a product with itself
             if i != j:
@@ -49,6 +51,7 @@ if __name__ == "__main__":
     import random
 
     # Generate a large list of products
+    print("Generating Product List")
     product_list = []
     for i in range(5000):
         product_list.append({
@@ -58,6 +61,7 @@ if __name__ == "__main__":
         })
 
     # Measure execution time
+    print(f"Finding product combinations for {len(product_list)} products")
     start_time = time.time()
     combinations = find_product_combinations(product_list, 500, 50)
     end_time = time.time()
