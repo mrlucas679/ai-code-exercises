@@ -1,13 +1,12 @@
 services:
   # PostgreSQL Database
   postgres:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: postgres:latest
     container_name: orders-postgres
     ports:
       - "5432:5432"
     volumes:
+      - ./db/init:/docker-entrypoint-initdb.d
       - postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: app_user
@@ -32,7 +31,7 @@ services:
       postgres:
         condition: service_healthy
     command: >
-      bash -c "npm install && npm start"
+      bash -c "npm install && tail -f /dev/null"
     environment:
       - NODE_ENV=development
       - DB_USER=app_user

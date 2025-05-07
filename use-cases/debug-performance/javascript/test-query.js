@@ -2,16 +2,41 @@
 // Script to test the getCustomerOrderDetails function from orders-service.js
 const { getCustomerOrderDetails } = require('./orders-service');
 
+// Function to draw a performance metrics box
+function displayPerformanceMetrics(executionTime) {
+  const line = '='.repeat(80);
+  console.log('\n' + line);
+  console.log('PERFORMANCE METRICS'.padStart(45, ' '));
+  console.log(line);
+  console.log(`Query Execution Time: ${executionTime}ms`);
+  console.log('');
+  console.log('NOTE FOR STUDENTS:');
+  console.log('Use this execution time as your baseline for optimization comparisons.');
+  console.log('Run this test after each optimization attempt to measure your improvements.');
+  console.log('Lower execution times indicate better performance.');
+  console.log(line + '\n');
+}
+
 async function testQuery() {
   try {
     console.log('Testing getCustomerOrderDetails function...');
     console.log('Fetching orders for customer ID 1 from 2023-01-01 to 2023-12-31...');
     
+    // Capture start time for manual measurement
+    const startTime = process.hrtime();
+    
     // Call the getCustomerOrderDetails function with sample parameters
     const orders = await getCustomerOrderDetails(1, '2023-01-01', '2023-12-31');
     
+    // Calculate execution time (the getCustomerOrderDetails function also logs its own time)
+    const endTime = process.hrtime(startTime);
+    const executionTimeMs = (endTime[0] * 1000 + endTime[1] / 1000000).toFixed(3);
+    
+    // Display performance metrics prominently
+    displayPerformanceMetrics(executionTimeMs);
+    
     // Display the results
-    console.log('\nQuery Results:');
+    console.log('Query Results:');
     console.log(`Found ${orders.length} orders for customer ID 1`);
     
     // Format and display each order
@@ -50,6 +75,10 @@ async function testQuery() {
     });
     
     console.log('\nTest completed successfully!');
+    
+    // Remind students of performance metrics
+    console.log('\nRemember to check the execution time at the top of this output');
+    console.log('for your performance optimization comparisons.');
   } catch (error) {
     console.error('Error during test:', error);
   } finally {

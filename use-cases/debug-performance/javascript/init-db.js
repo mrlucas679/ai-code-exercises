@@ -2,14 +2,17 @@
 // Script to initialize the database schema and populate it with sample data
 const { Pool } = require('pg');
 
-// Database connection
+// Database connection - use environment variables with fallbacks
 const pool = new Pool({
-  user: 'app_user',
-  host: 'localhost',
-  database: 'ecommerce',
-  password: 'password123',
-  port: 5432,
+  user: process.env.DB_USER || 'app_user',
+  host: process.env.DB_HOST || 'localhost',
+  database: process.env.DB_NAME || 'ecommerce',
+  password: process.env.DB_PASSWORD || 'password123',
+  port: parseInt(process.env.DB_PORT || '5432'),
 });
+
+// Log connection info for debugging
+console.log(`Connecting to database: ${process.env.DB_USER || 'app_user'}@${process.env.DB_HOST || 'localhost'}:${process.env.DB_PORT || '5432'}/${process.env.DB_NAME || 'ecommerce'}`);
 
 async function initializeDatabase() {
   const client = await pool.connect();

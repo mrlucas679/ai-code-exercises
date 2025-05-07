@@ -40,11 +40,52 @@ fi
 
 echo ""
 echo "Step 2: Initializing the database with sample data..."
-node init-db.js
 
-echo ""
-echo "Step 3: Testing the getCustomerOrderDetails function..."
-node test-query.js
+# Check if running inside Docker or locally
+RUNNING_IN_DOCKER=false
+if [ -f /.dockerenv ]; then
+  RUNNING_IN_DOCKER=true
+fi
+
+# Set database connection environment variables
+export DB_USER=app_user
+export DB_PASSWORD=password123
+export DB_NAME=ecommerce
+export DB_PORT=5432
+
+if [ "$RUNNING_IN_DOCKER" = true ]; then
+  # Inside Docker container - execute scripts directly with service name as host
+  export DB_HOST=postgres
+  echo "Running inside Docker container"
+  echo "Using database connection: ${DB_USER}@${DB_HOST}:${DB_PORT}/${DB_NAME}"
+  
+  # Initialize the database
+  PGPASSWORD=$DB_PASSWORD node init-db.js
+  
+  echo ""
+  echo "Step 3: Testing the getCustomerOrderDetails function..."
+  PGPASSWORD=$DB_PASSWORD node test-query.js
+else
+  # Local execution - use docker-compose exec to run inside the container
+  echo "Running outside Docker container - using docker-compose exec"
+  
+  # Check if the app container is running - more reliable method
+  APP_CONTAINER=$(docker-compose ps -q app)
+  if [ -n "$APP_CONTAINER" ]; then
+    echo "Using app container to execute scripts"
+    
+    # Initialize the database
+    echo "Initializing database..."
+    docker-compose exec -T app node init-db.js
+    
+    echo ""
+    echo "Step 3: Testing the getCustomerOrderDetails function..."
+    docker-compose exec -T app node test-query.js
+  else
+    echo "App container not running. Please start it with 'docker-compose up -d app'"
+    exit 1
+  fi
+fi
 
 echo ""
 echo "=== Setup and test completed ==="

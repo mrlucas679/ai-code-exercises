@@ -1,18 +1,19 @@
 // orders-service.js
 const { Pool } = require('pg');
 
-// Database connection
+// Database connection - use environment variables with fallbacks
 const pool = new Pool({
-  user: 'app_user',
-  host: 'localhost',
-  database: 'ecommerce',
-  password: 'password123',
-  port: 5432,
+  user: process.env.DB_USER || 'app_user',
+  host: process.env.DB_HOST || 'localhost',
+  database: process.env.DB_NAME || 'ecommerce',
+  password: process.env.DB_PASSWORD || 'password123',
+  port: parseInt(process.env.DB_PORT || '5432'),
 });
 
-async function getCustomerOrderDetails(customerId, startDate, endDate) {
-  console.time('orderQueryTime');
+// Log connection info when service starts
+console.log(`Database connection: ${process.env.DB_USER || 'app_user'}@${process.env.DB_HOST || 'localhost'}:${process.env.DB_PORT || '5432'}/${process.env.DB_NAME || 'ecommerce'}`);
 
+async function getCustomerOrderDetails(customerId, startDate, endDate) {
   try {
     // Query to get all order details for a customer
     const result = await pool.query(`
@@ -38,16 +39,19 @@ async function getCustomerOrderDetails(customerId, startDate, endDate) {
           WHERE oi.order_id = o.order_id
         ) as items,
         (
-          SELECT json_agg(
-            json_build_object(
-              'status', s.status,
-              'date', s.status_date,
-              'notes', s.notes
+          SELECT 
+            array_to_json(
+              array_agg(
+                json_build_object(
+                  'status', s.status,
+                  'date', s.status_date,
+                  'notes', s.notes
+                )
+                ORDER BY s.status_date DESC
+              )
             )
-          )
           FROM order_status_history s
           WHERE s.order_id = o.order_id
-          ORDER BY s.status_date DESC
         ) as status_history,
         a.street,
         a.city,
@@ -62,7 +66,6 @@ async function getCustomerOrderDetails(customerId, startDate, endDate) {
       ORDER BY o.order_date DESC
     `, [customerId, startDate, endDate]);
 
-    console.timeEnd('orderQueryTime');
     return result.rows;
   } catch (err) {
     console.error('Database query error:', err);
