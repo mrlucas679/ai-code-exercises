@@ -1,36 +1,11 @@
-# Task Prioritization Algorithm - Testing Exercise
+# Exercise: Using AI to help with testing
 
-## Project Context
-TaskMaster is a task management application used by teams to track work items and priorities. The Task Prioritization Algorithm is a critical component that determines which tasks should be displayed first on users' dashboards.
+[Instructions](https://dev.ai.wethinkco.de/ai-software/ai-use-cases/exercises/exercise-testing-001/)
 
-## Feature Context
-The testing exercise focuses on the task prioritization system that:
-- Powers the "Smart Dashboard" feature showing users their most important tasks first
-- Adapts to changing circumstances by considering multiple factors (deadlines, status changes, priority flags)
-- Integrates with reminder systems to escalate overdue high-priority items
-- Must be thoroughly tested to ensure reliable functionality
+This contains the starter code for the **Task Manager** application used in the exercise. Code is available for three languages:
 
-## Technical Context
-- The algorithm processes thousands of tasks in real-time across the application
-- Testing needs to cover unit tests for individual functions and integration tests for the entire workflow
-- Edge cases must be identified and tested to ensure reliable sorting in all situations
-- Tests should be maintainable and provide clear feedback when issues occur
+- [Java](java/TaskManager/README.md)
+- [Python](python/TaskManager/README.md)
+- [Javascript](javascript/TaskManager/README.md)
 
-## Exercise Objectives
-- Practice using AI tools to develop effective testing strategies
-- Learn to identify key behaviors and edge cases in algorithms
-- Apply Test-Driven Development principles to add features and fix bugs
-- Create integration tests that verify end-to-end functionality
-
-## Testing Approach
-The exercise guides you through:
-1. Understanding what behaviors to test in the algorithm
-2. Improving individual tests for better clarity and coverage
-3. Using TDD to add new features and fix bugs
-4. Creating integration tests for the entire task prioritization workflow
-
-## System Requirements
-- Language-specific testing frameworks:
-  - Java: JUnit 5
-  - JavaScript: Jest
-  - Python: pytest
+_Note that the starter code is by no means brilliant or optimized code. It is intentionally created to be improved with the application of the various AI prompts and techniques you are going to learn in this course._

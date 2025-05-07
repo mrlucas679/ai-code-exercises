@@ -16,4 +16,5 @@ This is still a work in progress - the idea is to capture the various exercise s
 | Debugging | Error Diagnosis Challenge | [Instructions](https://dev.ai.wethinkco.de/ai-software/ai-use-cases/exercises/exercise-debug-errors-001/) | [Starter Code](use-cases/debug-errors-001/README.md) |
 | Debugging | Performance Optimization Challenge | [Instructions](https://dev.ai.wethinkco.de/ai-software/ai-use-cases/exercises/exercise-code-performance/) | [Starter Code](use-cases/debug-performance/README.md) |
 | Debugging | AI Solution Verification Challenge | [Instructions](https://dev.ai.wethinkco.de/ai-software/ai-use-cases/exercises/exercise-debug-limitations/) | [Starter Code](use-cases/debug-limitations/README.md) |
+| Testing | Using AI to help with testing | [Instructions](https://dev.ai.wethinkco.de/ai-software/ai-use-cases/exercises/exercise-testing-001/) | [Starter Cod](use-cases/testing-001) |
 | Topic | Exercise 3 | Instructions for Exercise 3 | Starter Code for Exercise 3 |
