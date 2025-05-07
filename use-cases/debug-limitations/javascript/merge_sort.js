@@ -37,3 +37,6 @@ function merge(left, right) {
 
     return result;
 }
+
+// Export functions for testing
+module.exports = { mergeSort };

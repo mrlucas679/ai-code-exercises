@@ -6,11 +6,20 @@ This exercise is designed to help you practice debugging skills with a JavaScrip
 
 The repository contains:
 - `merge_sort.js`: An implementation of merge sort with a bug
-- `test_merge_sort.js`: Tests that demonstrate the bug
+- `tests/merge_sort.test.js`: Jest tests that demonstrate the bug
 
 ## Requirements
 
 - Node.js (any recent version)
+- npm (comes with Node.js)
+
+## Setup
+
+Install the dependencies:
+
+```bash
+npm install
+```
 
 ## Running the Code
 
@@ -27,23 +36,13 @@ However, this won't show much output, as the file only defines the functions wit
 Run the test suite to see the bug in action:
 
 ```bash
-node test_merge_sort.js
+npm test
 ```
 
-The tests will fail or hang due to the bug in the merge sort implementation.
+Or run tests in watch mode to see changes as you fix the code:
 
-## Exercise Goals
+```bash
+npm run test:watch
+```
 
-1. Identify the bug in the merge sort implementation
-2. Fix the bug
-3. Verify your solution by running the tests again - they should all pass
-
-## Hints
-
-- Read the code carefully, looking for any commented hints
-- Pay special attention to loop conditions and incrementing variables
-- Think about what happens when merging two arrays where elements from one array are exhausted before the other
-
-## Solution
-
-Don't peek at the solution until you've tried to solve it yourself! The bug is related to an incorrect variable being incremented in one of the while loops.
+The tests will fail or time out due to the bug in the merge sort implementation.
