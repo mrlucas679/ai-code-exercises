@@ -54,7 +54,7 @@ function validateUserData(userData, options = {}) {
     } else {
         // Profile update validation
         for (const field of requiredForProfile) {
-            if (userData[field] !== undefined && userData[field].trim() === '') {
+            if (userData[field] !== undefined && userData[field] === '') {
                 errors.push(`${field} cannot be empty if provided`);
             }
         }
@@ -153,4 +153,6 @@ function validateUserData(userData, options = {}) {
 }
 
 // Export the function for testing
-export default validateUserData;
+// export default validateUserData;
+// Export functions for testing
+module.exports = { validateUserData };

@@ -28,4 +28,6 @@ class UserStore {
   }
 }
 
-export default UserStore;
+// export default UserStore;
+// Export functions for testing
+module.exports = { UserStore };
