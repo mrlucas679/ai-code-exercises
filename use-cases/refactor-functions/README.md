@@ -1,6 +1,6 @@
 # Exercise: Function Decomposition Challenge
 
-[Instructions](https://dev.ai.wethinkco.de/ai-software/ai-use-cases/exercises/exercise-refactor-functions/)
+[Instructions](https://ai.wethinkco.de/ai-software/ai-use-cases/exercises/exercise-refactor-functions/)
 
 This contains the starter code for the exercise. Code is available for three languages:
 

@@ -1,6 +1,6 @@
 # Exercise: Algorithm Deconstruction Challenge
 
-[Instructions](https://dev.ai.wethinkco.de/ai-software/ai-use-cases/exercises/exercise-code-algorithms/)
+[Instructions](https://ai.wethinkco.de/ai-software/ai-use-cases/exercises/exercise-code-algorithms/)
 
 This contains the starter code for the **Task Manager** application used in the exercise. Code is available for three languages:
 

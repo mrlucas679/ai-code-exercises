@@ -1,6 +1,6 @@
 # Exercise: Using AI to help with testing
 
-[Instructions](https://dev.ai.wethinkco.de/ai-software/ai-use-cases/exercises/exercise-testing-001/)
+[Instructions](https://ai.wethinkco.de/ai-software/ai-use-cases/exercises/exercise-testing-001/)
 
 This contains the starter code for the **Task Manager** application used in the exercise. Code is available for three languages:
 

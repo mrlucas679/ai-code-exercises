@@ -1,6 +1,6 @@
 # Exercise: Performance Optimization Challenge
 
-[Instructions](https://dev.ai.wethinkco.de/ai-software/ai-use-cases/exercises/exercise-code-performance/)
+[Instructions](https://ai.wethinkco.de/ai-software/ai-use-cases/exercises/exercise-code-performance/)
 
 This contains the starter code for the exercise. Code is available for three languages:
 
