@@ -50,7 +50,7 @@ const userAuth = {
     }
 
     // Check if account is locked
-    if (user.loginAttempts >= this.config.maxLoginAttempts) {
+        if (user.loginAttempts >= this.config.maxLoginAttempts) {
       const lockoutTime = user.lastFailedLogin + this.config.lockoutDuration;
       if (Date.now() < lockoutTime) {
         const waitMinutes = Math.ceil((lockoutTime - Date.now()) / (60 * 1000));
@@ -59,7 +59,14 @@ const userAuth = {
           message: `Account locked. Try again in ${waitMinutes} minutes.`
         };
       }
+      // CODE REVIEW FIX: Reset login attempts after lockout period expires
+      // Without this, a user can never log in again after being locked out
+      user.loginAttempts = 0;
+
     }
+    
+
+  
 
     // Verify password - In real app, use proper password hashing!
     if (user.password !== password) {

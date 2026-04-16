@@ -1,0 +1,12 @@
+{
+  "name": "code-reviews-javascript",
+  "version": "1.0.0",
+  "description": "Code review exercise for user authentication utility",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0"
+  },
+  "private": true
+}
