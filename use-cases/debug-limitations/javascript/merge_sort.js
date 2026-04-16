@@ -24,10 +24,10 @@ function merge(left, right) {
         }
     }
 
-    // Bug: Only one of these loops will execute
+    
     while (i < left.length) {
         result.push(left[i]);
-        j++; // Bug: incrementing j instead of i
+        i++; 
     }
 
     while (j < right.length) {

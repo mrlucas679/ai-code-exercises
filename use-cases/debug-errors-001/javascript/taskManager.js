@@ -15,9 +15,9 @@ function initApp() {
 
 // Function to add a new task
 function addTask(taskName) {
-  let tasks = { id: Date.now(), name: taskName, completed: false };  // Notice the 'let tasks' here!
-  console.log("Task added:", tasks);
-  displayTasks();
+  tasks.push({ id: Date.now(), name: taskName, completed: false });
+  console.log("Task added:", tasks[tasks.length - 1]);
+  console.log("tasks added:", tasks); // Debugging log
   return tasks; // Return for testing
 }
 

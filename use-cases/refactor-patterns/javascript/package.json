@@ -1,0 +1,12 @@
+{
+  "name": "refactor-patterns-javascript",
+  "version": "1.0.0",
+  "description": "Strategy pattern exercise for shipping cost calculator",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0"
+  },
+  "private": true
+}
