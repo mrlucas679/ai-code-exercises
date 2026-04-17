@@ -7,6 +7,7 @@ class TaskManager {
     this.storage = new TaskStorage(storagePath);
   }
 
+/** Creates a new task, persists it, and returns its id. Returns null if date is invalid. */
   createTask(title, description = "", priorityValue = 2, dueDateStr = null, tags = []) {
     const priority = priorityValue;
     let dueDate = null;
@@ -28,6 +29,7 @@ class TaskManager {
     return taskId;
   }
 
+/** Returns tasks filtered by status, priority, or overdue flag. Returns all if no filter set. */
   listTasks(statusFilter = null, priorityFilter = null, showOverdue = false) {
     if (showOverdue) {
       return this.storage.getOverdueTasks();
@@ -43,7 +45,7 @@ class TaskManager {
 
     return this.storage.getAllTasks();
   }
-
+/** Updates a task's status. Calls markAsDone() when status is DONE to set completedAt. */
   updateTaskStatus(taskId, newStatusValue) {
     if (newStatusValue === TaskStatus.DONE) {
       const task = this.storage.getTask(taskId);
@@ -57,11 +59,13 @@ class TaskManager {
       return this.storage.updateTask(taskId, { status: newStatusValue });
     }
   }
-
+  
+  /** Updates a task's priority. */ 
   updateTaskPriority(taskId, newPriorityValue) {
     return this.storage.updateTask(taskId, { priority: parseInt(newPriorityValue) });
   }
-
+  
+  /** Updates a task's due date. */ 
   updateTaskDueDate(taskId, dueDateStr) {
     try {
       const dueDate = new Date(dueDateStr);
@@ -74,15 +78,18 @@ class TaskManager {
       return false;
     }
   }
-
+  
+  /** Deletes a task by its ID. */
   deleteTask(taskId) {
     return this.storage.deleteTask(taskId);
   }
 
+  /** Retrieves details of a task by its ID. */ 
   getTaskDetails(taskId) {
     return this.storage.getTask(taskId);
   }
-
+  
+  /** Adds a tag to a task by its ID. */
   addTagToTask(taskId, tag) {
     const task = this.storage.getTask(taskId);
     if (task) {
@@ -95,6 +102,7 @@ class TaskManager {
     return false;
   }
 
+  /** Removes a tag from a task by its ID. */   
   removeTagFromTask(taskId, tag) {
     const task = this.storage.getTask(taskId);
     if (task && task.tags.includes(tag)) {
@@ -105,47 +113,35 @@ class TaskManager {
     return false;
   }
 
-  getStatistics() {
-    const tasks = this.storage.getAllTasks();
-    const total = tasks.length;
-
-    // Count by status
-    const statusCounts = Object.values(TaskStatus).reduce((acc, status) => {
-      acc[status] = 0;
+  _countByStatus(tasks) {
+    return Object.values(TaskStatus).reduce((acc, status) => {
+      acc[status] = tasks.filter(t => t.status === status).length;
       return acc;
     }, {});
+  }
 
-    tasks.forEach(task => {
-      statusCounts[task.status]++;
-    });
-
-    // Count by priority
-    const priorityCounts = Object.values(TaskPriority).reduce((acc, priority) => {
-      acc[priority] = 0;
+  _countByPriority(tasks) {
+    return Object.values(TaskPriority).reduce((acc, priority) => {
+      acc[priority] = tasks.filter(t => t.priority === priority).length;
       return acc;
     }, {});
+  }
 
-    tasks.forEach(task => {
-      priorityCounts[task.priority]++;
-    });
-
-    // Count overdue
-    const overdueTasks = tasks.filter(task => task.isOverdue());
-
-    // Count completed in last 7 days
+  _completedLastWeek(tasks) {
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    return tasks.filter(t => t.completedAt && t.completedAt >= sevenDaysAgo).length;
+  }
 
-    const completedRecently = tasks.filter(task =>
-      task.completedAt && task.completedAt >= sevenDaysAgo
-    );
-
+  /** Returns a summary of tasks by status, priority, overdue count, and completions this week. */
+  getStatistics() {
+    const tasks = this.storage.getAllTasks();
     return {
-      total,
-      byStatus: statusCounts,
-      byPriority: priorityCounts,
-      overdue: overdueTasks.length,
-      completedLastWeek: completedRecently.length
+      total: tasks.length,
+      byStatus: this._countByStatus(tasks),
+      byPriority: this._countByPriority(tasks),
+      overdue: tasks.filter(t => t.isOverdue()).length,
+      completedLastWeek: this._completedLastWeek(tasks)
     };
   }
 }

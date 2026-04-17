@@ -1,18 +1,26 @@
-// Strategy for standard shipping
+/** Returns the rate for a destination country from a rates map, or a default rate.
+ * @param {Object} rates - Map of country to rate
+ * @param {string} country - Destination country
+ * @param {number} defaultRate - Rate for unlisted countries
+ * @returns {number} The applicable rate
+ */
+function getRateForCountry(rates, country, defaultRate) {
+  return rates[country] !== undefined ? rates[country] : defaultRate;
+}
+
+/** Shipping strategy for standard delivery. Calculates cost by weight and destination. */
 const standardShipping = {
   calculate(packageDetails, destinationCountry) {
     const { weight, length, width, height } = packageDetails;
     let cost = 0;
 
-    if (destinationCountry === 'USA') {
-      cost = weight * 2.5;
-    } else if (destinationCountry === 'Canada') {
-      cost = weight * 3.5;
-    } else if (destinationCountry === 'Mexico') {
-      cost = weight * 4.0;
-    } else {
-      cost = weight * 4.5;
-    }
+    const rates = {
+      USA: 2.5,
+      Canada: 3.5,
+      Mexico: 4.0
+    };
+
+    cost = weight * getRateForCountry(rates, destinationCountry, 4.5);
 
     if (weight < 2 && (length * width * height) > 1000) {
       cost += 5.0;
@@ -22,21 +30,19 @@ const standardShipping = {
   }
 };
 
-// Strategy for express shipping
+/** Shipping strategy for express delivery. Adds surcharge for large packages. */
 const expressShipping = {
   calculate(packageDetails, destinationCountry) {
     const { weight, length, width, height } = packageDetails;
     let cost = 0;
 
-    if (destinationCountry === 'USA') {
-      cost = weight * 4.5;
-    } else if (destinationCountry === 'Canada') {
-      cost = weight * 5.5;
-    } else if (destinationCountry === 'Mexico') {
-      cost = weight * 6.0;
-    } else {
-      cost = weight * 7.5;
-    }
+    const rates = {
+      USA: 4.5,
+      Canada: 5.5,
+      Mexico: 6.0
+    };
+
+    cost = weight * getRateForCountry(rates, destinationCountry, 7.5);
 
     if ((length * width * height) > 5000) {
       cost += 15.0;
@@ -46,18 +52,22 @@ const expressShipping = {
   }
 };
 
-// Strategy for overnight shipping
+/** Shipping strategy for overnight delivery. Only available for USA and Canada. */
 const overnightShipping = {
   calculate(packageDetails, destinationCountry) {
     const { weight } = packageDetails;
 
-    if (destinationCountry === 'USA') {
-      return weight * 9.5;
-    } else if (destinationCountry === 'Canada') {
-      return weight * 12.5;
-    } else {
+    const rates = {
+      USA: 9.5,
+      Canada: 12.5
+    };
+
+    const rate = getRateForCountry(rates, destinationCountry, null);
+    if (rate === null) {
       return null;
     }
+
+    return weight * rate;
   }
 };
 
@@ -68,7 +78,12 @@ const shippingStrategies = {
   overnight: overnightShipping
 };
 
-// Main function  now delegates to the right strategy
+/** Looks up the shipping strategy by method and delegates cost calculation.
+ * @param {Object} packageDetails - Package dimensions and weight
+ * @param {string} destinationCountry - Target country
+ * @param {string} shippingMethod - 'standard', 'express', or 'overnight'
+ * @returns {string|'Unknown shipping method'} Formatted cost or error string
+ */
 function calculateShippingCost(packageDetails, destinationCountry, shippingMethod) {
   const strategy = shippingStrategies[shippingMethod];
 
