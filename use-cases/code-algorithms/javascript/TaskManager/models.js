@@ -12,7 +12,8 @@ const TaskStatus = {
   TODO: 'todo',
   IN_PROGRESS: 'in_progress',
   REVIEW: 'review',
-  DONE: 'done'
+  DONE: 'done',
+  ABANDONED: 'abandoned'
 };
 
 class Task {
@@ -30,8 +31,9 @@ class Task {
   }
 
   update(updates) {
+    const UPDATABLE_FIELDS = new Set(['title', 'description', 'priority', 'status', 'dueDate', 'completedAt', 'tags']);
     Object.keys(updates).forEach(key => {
-      if (this.hasOwnProperty(key)) {
+      if (UPDATABLE_FIELDS.has(key)) {
         this[key] = updates[key];
       }
     });
@@ -49,6 +51,12 @@ class Task {
       return false;
     }
     return this.dueDate < new Date() && this.status !== TaskStatus.DONE;
+  }
+
+  /** Marks task as ABANDONED and records the timestamp. */
+  markAsAbandoned() {
+    this.status = TaskStatus.ABANDONED;
+    this.updatedAt = new Date();
   }
 }
 

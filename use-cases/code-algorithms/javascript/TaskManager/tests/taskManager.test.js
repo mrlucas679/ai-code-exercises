@@ -1,7 +1,7 @@
 // tests/taskManager.test.js
-const { TaskManager } = require('../app');
+const { TaskManager } = require('../taskManager');
 const { TaskStorage } = require('../storage');
-const { Task, TaskPriority, TaskStatus } = require('../models');
+const { TaskPriority, TaskStatus } = require('../models');
 
 // Mock the TaskStorage class
 jest.mock('../storage', () => {
@@ -33,7 +33,7 @@ describe('TaskManager', () => {
 
   describe('constructor', () => {
     test('should initialize with default storage path', () => {
-      const defaultTaskManager = new TaskManager();
+      new TaskManager();
       expect(TaskStorage).toHaveBeenCalledWith('tasks.json');
     });
 
@@ -246,6 +246,62 @@ describe('TaskManager', () => {
       const result = taskManager.removeTagFromTask('task-id', 'non-existent-tag');
       
       expect(result).toBe(false);
+    });
+  });
+
+  describe('autoAbandonOverdueTasks', () => {
+    test('should abandon low/medium priority tasks overdue for more than 7 days', () => {
+      const oldDate = new Date();
+      oldDate.setDate(oldDate.getDate() - 8);
+
+      const mockTask = {
+        dueDate: oldDate,
+        priority: TaskPriority.MEDIUM,
+        status: TaskStatus.TODO,
+        markAsAbandoned: jest.fn()
+      };
+
+      taskManager.storage.getAllTasks.mockReturnValueOnce([mockTask]);
+      const count = taskManager.autoAbandonOverdueTasks();
+
+      expect(mockTask.markAsAbandoned).toHaveBeenCalled();
+      expect(count).toBe(1);
+    });
+
+    test('should not abandon high priority tasks even if overdue for more than 7 days', () => {
+      const oldDate = new Date();
+      oldDate.setDate(oldDate.getDate() - 8);
+
+      const mockTask = {
+        dueDate: oldDate,
+        priority: TaskPriority.HIGH,
+        status: TaskStatus.TODO,
+        markAsAbandoned: jest.fn()
+      };
+
+      taskManager.storage.getAllTasks.mockReturnValueOnce([mockTask]);
+      const count = taskManager.autoAbandonOverdueTasks();
+
+      expect(mockTask.markAsAbandoned).not.toHaveBeenCalled();
+      expect(count).toBe(0);
+    });
+
+    test('should not abandon tasks overdue for less than 7 days', () => {
+      const recentDate = new Date();
+      recentDate.setDate(recentDate.getDate() - 3);
+
+      const mockTask = {
+        dueDate: recentDate,
+        priority: TaskPriority.MEDIUM,
+        status: TaskStatus.TODO,
+        markAsAbandoned: jest.fn()
+      };
+
+      taskManager.storage.getAllTasks.mockReturnValueOnce([mockTask]);
+      const count = taskManager.autoAbandonOverdueTasks();
+
+      expect(mockTask.markAsAbandoned).not.toHaveBeenCalled();
+      expect(count).toBe(0);
     });
   });
 
