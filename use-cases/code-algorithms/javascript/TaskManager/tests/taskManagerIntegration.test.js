@@ -1,7 +1,6 @@
 // tests/taskManagerIntegration.test.js
 const fs = require('fs');
-const path = require('path');
-const { TaskManager } = require('../app');
+const { TaskManager } = require('../taskManager');
 const { TaskStatus, TaskPriority } = require('../models');
 
 // This is an integration test that tests TaskManager with the real TaskStorage

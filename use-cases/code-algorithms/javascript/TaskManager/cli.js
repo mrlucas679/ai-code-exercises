@@ -1,6 +1,6 @@
 // cli.js
 const { program } = require('commander');
-const { TaskManager } = require('./app');
+const { TaskManager } = require('./taskManager');
 const { TaskStatus, TaskPriority } = require('./models');
 
 const formatTask = (task) => {
@@ -8,7 +8,8 @@ const formatTask = (task) => {
     [TaskStatus.TODO]: '[ ]',
     [TaskStatus.IN_PROGRESS]: '[>]',
     [TaskStatus.REVIEW]: '[?]',
-    [TaskStatus.DONE]: '[✓]'
+    [TaskStatus.DONE]: '[✓]',
+    [TaskStatus.ABANDONED]: '[✗]'
   };
 
   const prioritySymbol = {
