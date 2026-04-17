@@ -16,6 +16,7 @@ const TaskStatus = {
 };
 
 class Task {
+    /** Creates a new Task with default status of TODO and a generated UUID. */
   constructor(title, description = '', priority = TaskPriority.MEDIUM, dueDate = null, tags = []) {
     this.id = uuidv4();
     this.title = title;
@@ -28,7 +29,8 @@ class Task {
     this.completedAt = null;
     this.tags = tags;
   }
-
+  
+   /** Updates allowed fields on the task and refreshes updatedAt. */ 
   update(updates) {
     Object.keys(updates).forEach(key => {
       if (this.hasOwnProperty(key)) {
@@ -38,12 +40,14 @@ class Task {
     this.updatedAt = new Date();
   }
 
+   /** Sets status to DONE and records the completion timestamp. */
   markAsDone() {
     this.status = TaskStatus.DONE;
     this.completedAt = new Date();
     this.updatedAt = this.completedAt;
   }
 
+  /** Returns true if task has a past due date and is not yet DONE. */
   isOverdue() {
     if (!this.dueDate) {
       return false;

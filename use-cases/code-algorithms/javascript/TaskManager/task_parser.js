@@ -1,21 +1,11 @@
 const {TaskPriority, Task} = require("./models");
+/** Parses free-form text into a Task object.
+ * Supports @tag, !priority and #date markers in the text.
+ * @param {string} text - Raw text e.g. "Buy milk @shopping !2 #tomorrow"
+ * @returns {Object} A new Task with extracted title, priority, tags and dueDate
+ */
 
 function parseTaskFromText(text) {
-  /**
-   * Parse free-form text to extract task properties.
-   *
-   * Examples of format it can parse:
-   * "Buy milk @shopping !2 #tomorrow"
-   * "Finish report for client XYZ !urgent #friday #work @project"
-   *
-   * Where:
-   * - Basic text is the task title
-   * - @tag adds a tag
-   * - !N sets priority (1=low, 2=medium, 3=high, 4=urgent)
-   * - !urgent/!high/!medium/!low sets priority by name
-   * - #date sets a due date
-   */
-
   // Default task properties
   let title = text.trim();
   let priority = TaskPriority.MEDIUM;
@@ -130,6 +120,11 @@ function parseTaskFromText(text) {
 
   return task;
 }
+/** Returns the next occurrence of a given weekday from a start date.
+ * @param {Date} currentDate - The date to calculate from
+ * @param {number} targetDay - Day number (0=Sunday, 1=Monday ... 6=Saturday)
+ * @returns {Date} The next matching weekday
+ */
 
 function getNextWeekday(currentDate, targetDay) {
   // Get the next occurrence of a specific weekday

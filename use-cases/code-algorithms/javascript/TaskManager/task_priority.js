@@ -1,5 +1,10 @@
 const {TaskPriority, TaskStatus} = require("./models");
 
+/** Calculates a priority score for a task. Higher score = higher importance.
+ * @param {Object} task - The task to score
+ * @returns {number} Priority score
+ */
+
 function calculateTaskScore(task) {
   // Base priority weights
   const priorityWeights = {
@@ -15,7 +20,7 @@ function calculateTaskScore(task) {
   // Add due date factor (higher score for tasks due sooner)
   if (task.dueDate) {
     const now = new Date();
-    const dueDate =task.dueDate;
+    const dueDate = new Date(task.dueDate);
     const daysUntilDue = Math.ceil((dueDate - now) / (1000 * 60 * 60 * 24));
 
     if (daysUntilDue < 0) {  // Overdue tasks
@@ -52,12 +57,23 @@ function calculateTaskScore(task) {
   return score;
 }
 
+/** Sorts tasks by priority score, highest first. Returns a new array.
+ * @param {Object[]} tasks - Tasks to sort
+ * @returns {Object[]} Sorted copy of the tasks array
+ */
+
 function sortTasksByImportance(tasks) {
   // Create a copy of the tasks array to avoid modifying the original
   return [...tasks].sort((a, b) => {
     return calculateTaskScore(b) - calculateTaskScore(a);
   });
 }
+
+/** Returns the top N tasks by priority score.
+ * @param {Object[]} tasks - Tasks to filter
+ * @param {number} [limit=5] - Max tasks to return
+ * @returns {Object[]} Top priority tasks
+ */
 
 function getTopPriorityTasks(tasks, limit = 5) {
   const sortedTasks = sortTasksByImportance(tasks);

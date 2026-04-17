@@ -1,21 +1,11 @@
 const { TaskStatus } = require("./models");
+/** Merges local and remote task lists with conflict resolution.
+ * @param {Object} localTasks - Tasks from local source keyed by id
+ * @param {Object} remoteTasks - Tasks from remote source keyed by id
+ * @returns {Object} mergedTasks, toCreateRemote, toUpdateRemote, toCreateLocal, toUpdateLocal
+ */
 
 function mergeTaskLists(localTasks, remoteTasks) {
-  /**
-   * Merge two task lists with conflict resolution.
-   *
-   * Args:
-   *   localTasks: Object of tasks from local source {task_id: task}
-   *   remoteTasks: Object of tasks from remote source {task_id: task}
-   *
-   * Returns:
-   *   Object with:
-   *     - mergedTasks: Combined tasks
-   *     - toCreateRemote: Tasks to be created in remote
-   *     - toUpdateRemote: Tasks to be updated in remote
-   *     - toCreateLocal: Tasks to be created in local
-   *     - toUpdateLocal: Tasks to be updated in local
-   */
   const mergedTasks = {};
   const toCreateRemote = {};
   const toUpdateRemote = {};
@@ -67,15 +57,15 @@ function mergeTaskLists(localTasks, remoteTasks) {
     toUpdateLocal
   };
 }
+/** Resolves conflicts between two versions of the same task.
+ * Most-recent update wins. Completed status always wins. Tags are merged.
+ * @param {Object} localTask - Local version of the task
+ * @param {Object} remoteTask - Remote version of the task
+ * @returns {Array} [mergedTask, shouldUpdateLocal, shouldUpdateRemote]
+ */
 
 function resolveTaskConflict(localTask, remoteTask) {
-  /**
-   * Resolve conflicts between two versions of the same task.
-   *
-   * Returns:
-   *   [mergedTask, shouldUpdateLocal, shouldUpdateRemote]
-   */
-  // Make a copy of the local task to use as our base
+  
   const mergedTask = {...localTask};
 
   // Track if we need to update either source
