@@ -17,53 +17,60 @@ async function getCustomerOrderDetails(customerId, startDate, endDate) {
   try {
     // Query to get all order details for a customer
     const result = await pool.query(`
-      SELECT
-        o.order_id,
-        o.order_date,
-        o.total_amount,
-        o.status,
-        c.customer_name,
-        c.email,
-        (
-          SELECT json_agg(
-            json_build_object(
-              'product_id', p.product_id,
-              'product_name', p.name,
-              'quantity', oi.quantity,
-              'unit_price', p.price,
-              'subtotal', (oi.quantity * p.price)
-            )
-          )
-          FROM order_items oi
-          JOIN products p ON oi.product_id = p.product_id
-          WHERE oi.order_id = o.order_id
-        ) as items,
-        (
-          SELECT 
-            array_to_json(
-              array_agg(
-                json_build_object(
-                  'status', s.status,
-                  'date', s.status_date,
-                  'notes', s.notes
-                )
-                ORDER BY s.status_date DESC
-              )
-            )
-          FROM order_status_history s
-          WHERE s.order_id = o.order_id
-        ) as status_history,
-        a.street,
-        a.city,
-        a.state,
-        a.postal_code,
-        a.country
-      FROM orders o
-      JOIN customers c ON o.customer_id = c.customer_id
-      LEFT JOIN addresses a ON o.shipping_address_id = a.address_id
-      WHERE o.customer_id = $1
-        AND o.order_date BETWEEN $2 AND $3
-      ORDER BY o.order_date DESC
+    WITH order_items_agg AS (
+  SELECT
+    oi.order_id,
+    json_agg(
+      json_build_object(
+        'product_id', p.product_id,
+        'product_name', p.name,
+        'quantity', oi.quantity,
+        'unit_price', p.price,
+        'subtotal', (oi.quantity * p.price)
+      )
+    ) AS items
+  FROM order_items oi
+  JOIN products p ON oi.product_id = p.product_id
+  GROUP BY oi.order_id
+),
+status_history_agg AS (
+  SELECT
+    s.order_id,
+    array_to_json(
+      array_agg(
+        json_build_object(
+          'status', s.status,
+          'date', s.status_date,
+          'notes', s.notes
+        )
+        ORDER BY s.status_date DESC
+      )
+    ) AS status_history
+  FROM order_status_history s
+  GROUP BY s.order_id
+)
+SELECT
+  o.order_id,
+  o.order_date,
+  o.total_amount,
+  o.status,
+  c.customer_name,
+  c.email,
+  oia.items,
+  sha.status_history,
+  a.street,
+  a.city,
+  a.state,
+  a.postal_code,
+  a.country
+  FROM orders o
+  JOIN customers c ON o.customer_id = c.customer_id
+  LEFT JOIN addresses a ON o.shipping_address_id = a.address_id
+  LEFT JOIN order_items_agg oia ON o.order_id = oia.order_id
+  LEFT JOIN status_history_agg sha ON o.order_id = sha.order_id
+  WHERE o.customer_id = $1
+  AND o.order_date BETWEEN $2 AND $3
+  ORDER BY o.order_date DESC
     `, [customerId, startDate, endDate]);
 
     return result.rows;
