@@ -3,13 +3,16 @@ const fs = require('fs');
 const path = require('path');
 const { Task, TaskPriority, TaskStatus } = require('./models');
 
+// TaskStorage implements the Repository pattern: it abstracts all task
+// persistence behind a consistent interface, so the rest of the app never
+// reads or writes tasks.json directly.
 class TaskStorage {
   constructor(storagePath = 'tasks.json') {
     this.storagePath = storagePath;
     this.tasks = {};
     this.load();
   }
-
+/** Reads tasks from the JSON file and reconstructs Task instances into this.tasks. */
   load() {
     if (fs.existsSync(this.storagePath)) {
       try {
@@ -43,6 +46,7 @@ class TaskStorage {
     }
   }
 
+/** Writes the current tasks map to the JSON file. */
   save() {
     try {
       const tasksArray = Object.values(this.tasks);
@@ -51,17 +55,20 @@ class TaskStorage {
       console.error(`Error saving tasks: ${error.message}`);
     }
   }
-
+  
+  /** Adds a new task to the storage and saves it. */
   addTask(task) {
     this.tasks[task.id] = task;
     this.save();
     return task.id;
   }
 
+  /** Retrieves a task by its ID. */
   getTask(taskId) {
     return this.tasks[taskId];
   }
-
+  
+  /** Updates a task by its ID with the provided updates. */
   updateTask(taskId, updates) {
     const task = this.getTask(taskId);
     if (task) {
@@ -72,6 +79,7 @@ class TaskStorage {
     return false;
   }
 
+  /** Deletes a task by its ID. */      
   deleteTask(taskId) {
     if (this.tasks[taskId]) {
       delete this.tasks[taskId];
@@ -80,19 +88,23 @@ class TaskStorage {
     }
     return false;
   }
-
+  
+  /** Retrieves all tasks. */
   getAllTasks() {
     return Object.values(this.tasks);
   }
 
+  /** Retrieves tasks by their status. */     
   getTasksByStatus(status) {
     return Object.values(this.tasks).filter(task => task.status === status);
   }
-
+  
+  /** Retrieves tasks by their priority. */
   getTasksByPriority(priority) {
     return Object.values(this.tasks).filter(task => task.priority === priority);
   }
 
+  /** Retrieves overdue tasks. */
   getOverdueTasks() {
     return Object.values(this.tasks).filter(task => task.isOverdue());
   }

@@ -205,3 +205,53 @@ TODO
 ## Data Storage
 
 Tasks are stored in a JSON file named `tasks.json` in the project directory. This file is created automatically when you add your first task.
+
+## Step-by-Step Guide: Creating and Managing Your First Task
+
+### Requirements
+
+- Node.js installed
+- Dependencies installed via `npm install`
+
+### Step 1: Create a task
+
+```bash
+node cli.js create "Buy groceries" -d "Milk, eggs, bread" -p 2 -u 2024-12-31 -t "personal,errands"
+```
+
+You will see: `Created task with ID: <task-id>`. Copy this ID for the next steps.
+
+### Step 2: List all tasks
+
+```bash
+node cli.js list
+```
+
+### Step 3: Update the task status
+
+```bash
+node cli.js status <task-id> in_progress
+```
+
+### Step 4: Add a tag
+
+```bash
+node cli.js tag <task-id> urgent
+```
+
+### Step 5: Mark the task as done
+
+```bash
+node cli.js status <task-id> done
+```
+
+### Step 6: View statistics
+
+```bash
+node cli.js stats
+```
+
+### Common Mistakes
+
+- Using an invalid date format (use `YYYY-MM-DD`, not `DD/MM/YYYY`)
+- Using a full task ID — only the first 8 characters are shown but the full UUID is required

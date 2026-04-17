@@ -227,3 +227,18 @@ This will generate a detailed coverage report showing which parts of the code ar
 ## Data Storage
 
 Tasks are stored in a JSON file named `tasks.json` in the project directory. This file is created automatically when you add your first task.
+
+## Data Flow
+
+When a user runs a CLI command, data flows through the application in this order:
+
+1. **cli.js** — Parses the command and arguments, then calls the relevant `TaskManager` method
+2. **app.js** — `TaskManager` applies business logic (validation, status rules) and delegates to `TaskStorage`
+3. **storage.js** — `TaskStorage` reads from or writes to `tasks.json`, reconstructing `Task` instances on load
+4. **models.js** — `Task` objects hold all task data and expose methods like `markAsDone()` and `isOverdue()`
+
+For priority-related operations, `app.js` also calls into:
+
+1. **task_priority.js** — Scores and sorts tasks by importance
+2. **task_parser.js** — Parses natural language input into structured task fields
+3. **task_list_merge.js** — Merges task lists from multiple sources, resolving conflicts by `updatedAt`

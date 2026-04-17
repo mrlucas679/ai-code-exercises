@@ -2,6 +2,14 @@
 const { Task, TaskPriority, TaskStatus } = require('../models');
 
 describe('Task', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   describe('constructor', () => {
     test('should create a task with minimal information', () => {
       const task = new Task('Test Task');

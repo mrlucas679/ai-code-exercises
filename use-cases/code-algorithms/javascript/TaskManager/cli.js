@@ -26,12 +26,10 @@ const formatTask = (task) => {
     ? `Tags: ${task.tags.join(', ')}`
     : 'No tags';
 
-  return (
-    `${statusSymbol[task.status]} ${task.id.substr(0, 8)} - ${prioritySymbol[task.priority]} ${task.title}\n` +
-    `  ${task.description}\n` +
-    `  ${dueStr} | ${tagsStr}\n` +
-    `  Created: ${task.createdAt.toISOString().split('T')[0]} ${task.createdAt.toTimeString().split(' ')[0]}`
-  );
+  return `${statusSymbol[task.status]} ${task.id.substr(0, 8)} - ${prioritySymbol[task.priority]} ${task.title}
+  ${task.description}
+  ${dueStr} | ${tagsStr}
+  Created: ${task.createdAt.toISOString().split('T')[0]} ${task.createdAt.toTimeString().split(' ')[0]}`;
 };
 
 const taskManager = new TaskManager();

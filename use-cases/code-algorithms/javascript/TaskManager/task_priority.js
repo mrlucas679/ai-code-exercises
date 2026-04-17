@@ -1,11 +1,25 @@
 const {TaskPriority, TaskStatus} = require("./models");
 
+/** Returns a score bonus based on how many days until the due date.
+ * @param {number} daysUntilDue
+ * @returns {number} Score bonus
+ */
+function getDueDateBonus(daysUntilDue) {
+  if (daysUntilDue < 0) return 30;
+  if (daysUntilDue === 0) return 20;
+  if (daysUntilDue <= 2) return 15;
+  if (daysUntilDue <= 7) return 10;
+  return 0;
+}
+
 /** Calculates a priority score for a task. Higher score = higher importance.
  * @param {Object} task - The task to score
  * @returns {number} Priority score
  */
 
 function calculateTaskScore(task) {
+  const now = new Date();
+
   // Base priority weights
   const priorityWeights = {
     [TaskPriority.LOW]: 1,
@@ -19,19 +33,8 @@ function calculateTaskScore(task) {
 
   // Add due date factor (higher score for tasks due sooner)
   if (task.dueDate) {
-    const now = new Date();
-    const dueDate = new Date(task.dueDate);
-    const daysUntilDue = Math.ceil((dueDate - now) / (1000 * 60 * 60 * 24));
-
-    if (daysUntilDue < 0) {  // Overdue tasks
-      score += 30;
-    } else if (daysUntilDue === 0) {  // Due today
-      score += 20;
-    } else if (daysUntilDue <= 2) {  // Due in next 2 days
-      score += 15;
-    } else if (daysUntilDue <= 7) {  // Due in next week
-      score += 10;
-    }
+    const daysUntilDue = Math.ceil((new Date(task.dueDate) - now) / (1000 * 60 * 60 * 24));
+    score += getDueDateBonus(daysUntilDue);
   }
 
   // Reduce score for tasks that are completed or in review
@@ -47,7 +50,6 @@ function calculateTaskScore(task) {
   }
 
   // Boost score for recently updated tasks
-  const now = new Date();
   const updatedAt = new Date(task.updatedAt);
   const daysSinceUpdate = Math.floor((now - updatedAt) / (1000 * 60 * 60 * 24));
   if (daysSinceUpdate < 1) {
